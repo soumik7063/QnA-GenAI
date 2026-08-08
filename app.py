@@ -1,7 +1,7 @@
 import streamlit as st
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_community.llms import Ollama
+from langchain_ollama import OllamaLLM
 import os
 
 import os
@@ -22,18 +22,18 @@ prompt=ChatPromptTemplate.from_messages(
 )
 
 def generate_response(question,llm,temperature,max_tokens):
-    llm=Ollama(model=llm)
+    llm=OllamaLLM(model=llm)
     output_parser=StrOutputParser()
     chain=prompt|llm|output_parser
     answer=chain.invoke({'question':question})
     return answer
 
 ## #Title of the app
-st.title("Enhanced Q&A Chatbot With OpenAI")
+st.title("Enhanced Q&A Chatbot With Ollama")
 
 
 ## Select the OpenAI model
-llm=st.sidebar.selectbox("Select Open Source model",["mistral"])
+llm=st.sidebar.selectbox("Select Open Source model",["qwen3:8b"])
 
 ## Adjust response parameter
 temperature=st.sidebar.slider("Temperature",min_value=0.0,max_value=1.0,value=0.7)
